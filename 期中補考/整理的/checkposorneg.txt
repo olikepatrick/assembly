@@ -1,0 +1,62 @@
+#include <stdio.h>
+int main()
+{
+    double number;
+
+    printf("Enter a number: ");
+    scanf("%lf", &number);
+
+    // true if number is less than 0
+    if (number < 0.0)
+        printf("You entered a negative number.");
+
+    // true if number is greater than 0
+    else if ( number > 0.0)
+        printf("You entered a positive number.");
+
+    // if both test expression is evaluated to false
+    else
+        printf("You entered 0.");
+    return 0;
+}
+²Ä¤@ÃD
+Include \masm32\include\Irvine32.inc
+Includelib \masm32\lib\Irvine32.lib 
+includelib \masm32\lib\Kernel32.lib
+includelib \masm32\lib\User32.lib
+
+
+.data
+num SDWORD ?
+Message1 BYTE "Enter a number : ", 0dh,0ah,0
+Message2 BYTE "You entered a negative number.", 0dh,0ah,0
+Message3 BYTE "You entered a positive number.", 0dh,0ah,0
+Message4 BYTE "You entered 0.",0dh,0ah,0
+
+.code
+main proc
+	call clrscr
+	mov edx, OFFSET Message1
+	call WriteString
+	call ReadInt
+	mov num, eax
+	
+	.if(num<0)
+	mov edx, OFFSET Message2
+	call WriteString
+	.endif
+
+
+	.if(num>0)
+	mov edx, OFFSET Message3
+	call WriteString
+	.endif
+
+
+	.if(num==0)
+	mov edx, OFFSET Message4
+	call WriteString
+	.endif
+
+	main endp
+end main

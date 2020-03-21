@@ -1,0 +1,59 @@
+#include <stdio.h>
+int main()
+{
+    long long n;
+    int count = 0;
+
+    printf("Enter an integer: ");
+    scanf("%lld", &n);
+
+    while(n != 0)
+    {
+        // n = n/10
+        n /= 10;
+        ++count;
+    }
+
+    printf("Number of digits: %d", count);
+}
+²Ä¤TÃD
+Include \masm32\include\Irvine32.inc
+Includelib \masm32\lib\Irvine32.lib 
+includelib \masm32\lib\Kernel32.lib
+includelib \masm32\lib\User32.lib
+
+.data
+
+num DWORD ?
+count DWORD 1
+Message1 BYTE "Enter an integer: ",0dh,0ah,0
+Message2 BYTE "Number of digits: ",0
+
+.code
+main proc
+
+    call clrscr
+    mov edx, OFFSET Message1
+    call writestring
+    call readint
+    mov ebx, 10
+    mov edx, 0
+
+L1:
+    div ebx
+    .if(eax>0)
+    inc count   
+    mov edx, 0
+    mov ebx, 10
+    jmp L1
+
+    .else
+    mov edx, OFFSET Message2
+    call writestring
+    mov eax, count
+    call writedec
+    call crlf
+    .endif
+
+    main endp
+end main

@@ -1,0 +1,80 @@
+#include <stdio.h>
+int main()
+{
+    int number, i;
+
+    printf("Enter a positive integer: ");
+    scanf("%d",&number);
+
+    printf("Factors of %d are: ", number);
+    for(i=1; i <= number; ++i)
+    {
+        if (number%i == 0)
+        {
+            printf("%d ",i);
+        }
+    }
+
+    return 0;
+}
+²Ä¤­ÃD
+Include \masm32\include\Irvine32.inc
+Includelib \masm32\lib\Irvine32.lib 
+includelib \masm32\lib\Kernel32.lib
+includelib \masm32\lib\User32.lib
+
+
+.data
+
+Message1 BYTE "Enter a positive integer: ",0dh,0ah,0
+Message2 BYTE "Factors of ",0
+Message3 BYTE " are: ",0
+num DWORD ?
+sof DWORD 200 dup(0)
+t DWORD 0
+
+.code
+main proc
+	call clrscr
+	mov edx, OFFSET Message1
+	call writestring
+	call readint
+	mov num, eax
+	mov ecx, eax
+	mov esi, 0 
+	mov ebx, 1
+	mov edx, 0
+
+L1:
+	div ebx
+	.if(edx==0)
+	mov sof[esi],ebx
+	add esi,	type	sof
+	inc t
+	.endif
+	inc ebx
+	mov eax, num
+	mov edx, 0
+loop L1
+
+	mov edx, OFFSET Message2
+	call writestring
+	mov eax,num
+	call writedec
+	mov edx, OFFSET Message3
+	call writestring
+	call crlf
+	mov ecx,t
+	mov esi,0
+L2:
+	mov eax,sof[esi]
+	call writedec
+	add esi,type sof
+	call crlf
+loop L2
+
+	
+
+
+	main endp
+end main
